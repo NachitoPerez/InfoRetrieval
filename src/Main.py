@@ -164,105 +164,114 @@ print("Execution time of the SMART_ltn calculations :", Smart_ltn_execution_time
 
 ################################################################## EXERCICE 5 ##################################################################
 
-query = "web ranking scoring algorithm"
+# Query list
+queries=[]
+with open('querys.txt', 'r') as queries :
+    # Create a list of tuples
+    query_tuples = [tuple(query.split(' ', 1)) for query in queries]
 
 print("Exercice 5 :\n")
 print ('---------------------------------------- SMART_ltn document scoring ----------------------------------------')
 
-start = time.time()
-eval = evaluate_query(query, smart_ltn)
-end = time.time()
 
-Smart_ltn_query_execution_time = end-start
+file_path = "queryResults/firstTestFile.txt"
 
-print("Execution time of the SMART_ltn scoring :", Smart_ltn_query_execution_time, 's\n')
+with open(file_path, 'w') as file:
+    
 
-top_10_docs = list(eval.items())[:10]
+    for (queryId, query) in query_tuples:
+        
+        start = time.time()
+        eval = evaluate_query(query, smart_ltn)
+        end = time.time()
 
-print("The documents scorring for the querry :", query, "is : ")
+        Smart_ltn_query_execution_time = end-start
 
-print("____________________________________")
-print("|      docno      |      score      |")
-for i in range(0,len(top_10_docs)):
-    print("____________________________________")
-    print("|   ",top_10_docs[i][0],"  |",top_10_docs[i][1],"|")
-print("____________________________________\n")
+        print("Execution time of the SMART_ltn scoring :", Smart_ltn_query_execution_time, 's')
 
+        scores = list(eval.items())
+        
+        print(f"for {queryId}, result length is {len(scores)}\n")
+        
+        rank = 1
+        for (doc_num, doc_score) in scores:
+            file.write(f"{queryId} Q0 {doc_num} {rank} {doc_score} Ignacio /article[1]\n")
+            rank += 1
 
-################################################################## EXERCICE 6 ##################################################################
+# ################################################################## EXERCICE 6 ##################################################################
 
-print("Exercice 6 :\n")
-print ('---------------------------------------- SMART_ltc calculation ----------------------------------------')
+# print("Exercice 6 :\n")
+# print ('---------------------------------------- SMART_ltc calculation ----------------------------------------')
 
-start = time.time()
-smart_ltc=smart_ltc_weighting(smart_ltn)
-end = time.time()
+# start = time.time()
+# smart_ltc=smart_ltc_weighting(smart_ltn)
+# end = time.time()
 
-Smart_ltc_execution_time = end-start
+# Smart_ltc_execution_time = end-start
 
-print("Execution time of the SMART_ltn calculations :", Smart_ltc_execution_time, 's\n')
+# print("Execution time of the SMART_ltn calculations :", Smart_ltc_execution_time, 's\n')
 
-#index_txt_smart_ltc (result[0],smart_ltc)
+# #index_txt_smart_ltc (result[0],smart_ltc)
 
-################################################################## EXERCICE 7 ##################################################################
+# ################################################################## EXERCICE 7 ##################################################################
 
-print("Exercice 7 :\n")
-print ('---------------------------------------- SMART_ltc document scoring ----------------------------------------')
+# print("Exercice 7 :\n")
+# print ('---------------------------------------- SMART_ltc document scoring ----------------------------------------')
 
-start = time.time()
-eval = evaluate_query(query, smart_ltc)
-end = time.time()
+# start = time.time()
+# eval = evaluate_query(query, smart_ltc)
+# end = time.time()
 
-Smart_ltc_query_execution_time = end-start
+# Smart_ltc_query_execution_time = end-start
 
-print("Execution time of the SMART_ltn scoring :", Smart_ltc_query_execution_time, 's\n')
+# print("Execution time of the SMART_ltn scoring :", Smart_ltc_query_execution_time, 's\n')
 
-top_10_docs = list(eval.items())[:10]
+# top_10_docs = list(eval.items())[:10]
 
-print("The documents scorring for the querry :", query, "is : ")
+# print("The documents scorring for the querry :", query, "is : ")
 
-print("____________________________________")
-print("|      docno      |      score      |")
-for i in range(0,len(top_10_docs)):
-    print("____________________________________")
-    print("|   ",top_10_docs[i][0],"  |",top_10_docs[i][1],"|")
-print("____________________________________\n")
+# print("____________________________________")
+# print("|      docno      |      score      |")
+# for i in range(0,len(top_10_docs)):
+#     print("____________________________________")
+#     print("|   ",top_10_docs[i][0],"  |",top_10_docs[i][1],"|")
+# print("____________________________________\n")
 
-################################################################## EXERCICE 8 ##################################################################
+# ################################################################## EXERCICE 8 ##################################################################
 
-print("Exercice 8 :\n")
-print ('---------------------------------------- BM25 calculation ----------------------------------------')
+# print("Exercice 8 :\n")
+# print ('---------------------------------------- BM25 calculation ----------------------------------------')
 
-start = time.time()
-BM25 = BM25_weighting(result[0], result[1], n, 1, 0.5, avdl, dl)
-end = time.time()
+# start = time.time()
+# BM25 = BM25_weighting(result[0], result[1], n, 1, 0.5, avdl, dl)
+# end = time.time()
 
-BM25_execution_time = end-start
+# BM25_execution_time = end-start
 
-print("Execution time of the BM25 calculations :", BM25_execution_time, 's\n')
+# print("Execution time of the BM25 calculations :", BM25_execution_time, 's\n')
 
-#index_txt_BM25 (result[0],BM25)
+# #index_txt_BM25 (result[0],BM25)
 
-################################################################## EXERCICE 9 ##################################################################
+# ################################################################## EXERCICE 9 ##################################################################
 
-print("Exercice 9 :\n")
-print ('---------------------------------------- BM25 document scoring ----------------------------------------')
+# print("Exercice 9 :\n")
+# print ('---------------------------------------- BM25 document scoring ----------------------------------------')
 
-start = time.time()
-eval = evaluate_query(query, BM25)
-end = time.time()
+# start = time.time()
+# eval = evaluate_query(query, BM25)
+# end = time.time()
 
-BM25_query_execution_time = end-start
+# BM25_query_execution_time = end-start
 
-print("Execution time of the BM25 scoring :", BM25_query_execution_time, 's\n')
+# print("Execution time of the BM25 scoring :", BM25_query_execution_time, 's\n')
 
-top_10_docs = list(eval.items())[:10]
+# top_10_docs = list(eval.items())[:10]
 
-print("The documents scorring for the querry :", query, "is : ")
+# print("The documents scorring for the querry :", query, "is : ")
 
-print("____________________________________")
-print("|      docno      |      score      |")
-for i in range(0,len(top_10_docs)):
-    print("____________________________________")
-    print("|   ",top_10_docs[i][0],"  |",top_10_docs[i][1],"|")
-print("____________________________________\n")
+# print("____________________________________")
+# print("|      docno      |      score      |")
+# for i in range(0,len(top_10_docs)):
+#     print("____________________________________")
+#     print("|   ",top_10_docs[i][0],"  |",top_10_docs[i][1],"|")
+# print("____________________________________\n")
