@@ -1,0 +1,11 @@
+Le fichier .rar ne contien pas la collection des document pour minimiser la taille du fichier
+
+Pour tester le code modifiez le paths.txt en ajoutant le chemin de la collection à traiter puis
+lancez le fichier Main.py
+
+Le fichier paths.txt doit contenir un seul chemin pas plus, car la fonction Main (au contraire au TP2) 
+à été adapter pour traiter un seul fichier de collection de documents.
+
+Si vous voulez traiter plusieurs fichier il faut ajouter des listes pour stocker les sorties des
+differentes fonctions dans la partie des EX 1-2-3 et adapter les autres Exercices pour traiter 
+tout les sorties.

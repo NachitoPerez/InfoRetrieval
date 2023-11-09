@@ -1,0 +1,107 @@
+1. Introduction
+
+
+Le projet présenté ici consiste en un ensemble de fichiers Python visant à traiter et analyser des collections de documents textuels. 
+
+Le projet comprend quatre fichiers principaux : main.py, file_process.py, traitement_file.py, et files_maneg.py. Chacun de ces fichiers a un rôle spécifique dans le traitement des données textuelles.
+
+En plus des fichiers de code source, le projet comprend également des fichiers texte pour voir les differents sorties des differents étapes de traitement des documents textuels.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! important à savoire !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Ce projet est adapté pour traiter une et une seule collection de documents texte. Pour traiter plusieurs collections il faut faire des chagements au niveau de la fonction Main.
+
+Le temps d'indexation est calculé une fois car on index l'ensemble des documents de la collection une seule fois. l'ensemble des traitements (stemming, stop words, pondération, traitement de requetes) s'effectuent sur le resultat de l'indexation.
+
+Par contre, on calule les differents temps d'executions de chaque traitement (stemming, stop words, pondération, traitement de requetes) on l'affiche.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2. Fichier main.py
+
+
+Traitement des fichiers et calcul des statistiques : Le programme lit le chemins du fichiers à partir du fichier paths.txt. Il traite ensuite le fichier en utilisant la fonction process_file, qui effectue le traitement initial des fichiers textes, extrait les statistiques sur la longueur des documents, la taille du vocabulaire et la fréquence des termes.
+
+Traitement des stop words et stemming : Le programme applique le traitement des stop words et le stemming aux résultats du traitement initial à l'aide des fonctions stopwords_process et stem_process.
+
+Affichage des statistiques : Le programme affiche les statistiques telles que la longueur moyenne des documents, la taille du vocabulaire et la fréquence moyenne des termes avant et après le traitement des stop words et le stemming.
+
+Calcul et affichage des poids SMART_ltn : Le programme calcule les poids en utilisant la fonction smart_ltn_weighting et affiche le temps d'exécution de ce calcul.
+
+Évaluation de la requête avec SMART_ltn : Une requête prédéfinie "web ranking scoring algorithm" est évaluée à l'aide de la fonction evaluate_query. Les 10 documents les plus pertinents sont affichés avec leurs scores correspondants.
+
+Calcul et affichage des poids SMART_ltc : Le programme calcule les poids SMART_ltc et affiche le temps d'exécution de ce calcul.
+
+Évaluation de la requête avec SMART_ltc : La même requête est évaluée à l'aide de la fonction evaluate_query avec les poids SMART_ltc. Les 10 documents les plus pertinents sont affichés avec leurs scores correspondants.
+
+Calcul et affichage des poids BM25 : Le programme calcule les poids BM25 et affiche le temps d'exécution de ce calcul.
+
+Évaluation de la requête avec BM25 : La même requête est évaluée à l'aide de la fonction evaluate_query avec les poids BM25. Les 10 documents les plus pertinents sont affichés avec leurs scores correspondants.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+3. Fichier file_process.py
+
+
+Le fichier file_process.py contient les fonctions de base pour traiter les fichiers de texte et pour calculer les statistiques. Voici un aperçu des principales fonctionnalités :
+
+file_processing(file_path) : Cette fonction lit un fichier de collection de documents textuels, génère un index et une table de fréquence des termes pour chaque terme dans les documents.
+
+statistics(index, term_frequency) : Cette fonction prend un index et une table de fréquence des termes, calcule la longueur moyenne des documents, la taille du vocabulaire, et la fréquence moyenne des termes dans la collection.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+4. Fichier traitement_file.py
+
+
+Le fichier traitement_file.py contient des fonctions pour manipuler les indexs.
+
+stop_word_processing(process, stop_list) : Cette fonction élimine les mots vides de l'index.
+
+stemmer(process) : Cette fonction applique la racinisation (stemming) à l'index.
+
+SmartLtn (df, tf, n) : Calcule le smart ltn de chaque terme dans un document en se basant sur le tf et le df du term dans le document. 
+
+smart_ltn_weighting (index, term_frequency, n) : Calcule l'ensemble des poids des termes dans un document, et utilise la fonction SmartLtn pour calculer le smart ltn de chaque terme.
+
+SmartLtc (tf, somme) : Calcule le smart ltc de chaque terme dans un document en se basant sur le tf  du term dans le document.
+
+somme_carre(smart_ltn_dict) : Calcule la somme des carrés des poids des differents termes dans un document.
+
+smart_ltc_weighting (smart_ltn_dict) :  Calcule l'ensemble des poids des termes dans un document, et utilise les fonction SmartLtc et somme_carre pour calculer le smart ltc de chaque terme.
+
+BM25_df(df, n): Calcule la partie df de la fonction de pondération BM25
+
+BM25_tf(tf, k, b, dl, avdl) : Calcule la partie tf de la fonction de pondération BM25
+
+BM25_weighting (index, term_frequency, n, k, b, avdl, doc_lingth) : Calcule l'ensemble des poids des termes dans un document, et utilise les fonction BM25_df et BM25_tf pour calculer le BM25 de chaque terme.
+
+evaluate_query(query, smart) : Évalue la pertinence des documents par rapport à la requête en utilisant l'une des méthodes de pondération SMART
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+5. Fichier files_maneg.py
+
+Le fichier files_maneg.py contient des fonctions pour exporter les resultats des traitements dans des fichiers txt.
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+6. Conclusion
+
+Ce projet offre un aperçu complet du traitement de documents textuels. Le fichier main.py sert de point central, coordonnant le traitement des données, tandis que les fichiers file_process.py, traitement_file.py, et files_maneg.py offrent des fonctionnalités spécialisées pour la génération d'index, le calcul de statistiques, la pondération, et la gestion des fichiers.
+
+Le programme final est capable de traiter une seule collection qui contient des milliers de documents, d'analyser leurs caractéristiques, d'éliminer les mots vides, d'appliquer la racinisation, d'apliquer la pendération par des differentes méthodes, de trater les requetes, et d'exporter les résultats pour une analyse ultérieure.
