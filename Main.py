@@ -52,7 +52,7 @@ n = len(doc_lengths)
 
 ################################################################## Quey evaluation ######################################################################## 
 
-run_index=1
+run_index=9
 
 run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
 
