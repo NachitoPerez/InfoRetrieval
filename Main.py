@@ -54,11 +54,9 @@ n = len(doc_lengths)
 
 run_index=0
 
-run = 0 
+run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
 
 while (run != 4) :
-
-    run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
 
     ################################################################## stemming & stop words ##################################################################
 
@@ -160,3 +158,5 @@ while (run != 4) :
             export_file(top_1500_docs, run_index, query_id, "ltc", "article",stop_d, stem_d, {k:k, b:b})
     
     run_index+=1
+
+    run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
