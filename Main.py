@@ -65,11 +65,13 @@ for file_path in all_paths:
 
     dl=doc_lengths
 
+    index_txt_no_stop_words_stem(result[0], result[1])
+
 ################################################################## EXERCICE 4 ##################################################################
 
 smart_ltn=smart_ltn_weighting(result[0], result[1],n)
 
-index_txt_smart_ltn(smart_ltn[0], smart_ltn[1])
+index_txt_smart_ltn(result[0],smart_ltn)
 
 ################################################################## EXERCICE 5 ##################################################################
 
@@ -83,7 +85,7 @@ top_1500_docs = list(eval.items())[:1500]
 
 smart_ltc=smart_ltc_weighting(smart_ltn)
 
-index_txt_smart_ltc(smart_ltc[0], smart_ltc[1])
+index_txt_smart_ltc(result[0],smart_ltc)
 
 ################################################################## EXERCICE 7 ##################################################################
 
@@ -95,7 +97,7 @@ top_1500_docs = list(eval.items())[:1500]
 
 BM25 = BM25_weighting(result[0], result[1], n, 1.2, 0.69, avdl, dl)
 
-index_txt_BM25(BM25[0], BM25[1])
+index_txt_BM25(result[0],BM25)
 
 ################################################################## EXERCICE 9 ##################################################################
 
