@@ -155,7 +155,7 @@ while (run != 4) :
 
             top_1500_docs = list(eval.items())[:1500]
 
-            export_file(top_1500_docs, run_index, query_id, "ltc", "article",stop_d, stem_d, {k:k, b:b})
+            export_file(top_1500_docs, query_id, run_index, "ltc", "article",stop_d, stem_d, {k:k, b:b})
     
     run_index+=1
 
