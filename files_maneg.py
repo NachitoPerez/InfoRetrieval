@@ -47,12 +47,12 @@ def export_file(doc_list, query_id, run_id, weighting_function, granularity,stop
     if list is None :
         exit
     
+    parm = '_'
     if parameters != 'noparameters' :
-        parm = ''
         for key, value in parameters.items():
             parm += f"{key}{value}"
     else:
-        parm=parameters
+        parm += parameters
 
 
     with open(f'SaadZakariaBadreddineIgnacio_{run_id}_{weighting_function}_{granularity}_{stop}_{stem}_{parm}.txt', 'a') as file:
