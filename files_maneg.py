@@ -43,18 +43,18 @@ def index_txt_BM25(index, term_frequency):
             for word in postings_list:
                 file.write(f"{term_frequency[term][word]} {word}\n")
 
-def export_file(list, query_id, run_id, weighting_function, granularity,stop, stem, parameters):
+def export_file(doc_list, query_id, run_id, weighting_function, granularity,stop, stem, parameters):
     if list is None :
         exit
     
     if parameters != 'noparameters' :
         parm = ''
-        for element in parameters :
-            parm.append(f"{element.key()}{element.value()}")
+        for key, value in parameters.items():
+            parm += f"{key}{value}"
     else:
         parm=parameters
 
 
     with open(f'SaadZakariaBadreddineIgnacio_{run_id}_{weighting_function}_{granularity}_{stop}_{stem}_{parm}.txt', 'a') as file:
-        for i in range(0, len(list)-1):        
-            file.write(f"{query_id} Q0 {list[i][0]} {i+1} {list[i][1]} SaadZakariaBadreddineIgnacio /article[1]\n")
+        for i in range(0, len(doc_list)):        
+            file.write(f"{query_id} Q0 {doc_list[i][0]} {i+1} {doc_list[i][1]} SaadZakariaBadreddineIgnacio /article[1]\n")

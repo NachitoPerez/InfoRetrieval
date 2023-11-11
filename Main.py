@@ -52,7 +52,7 @@ n = len(doc_lengths)
 
 ################################################################## Quey evaluation ######################################################################## 
 
-run_index=0
+run_index=1
 
 run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
 
@@ -63,7 +63,7 @@ while (run != 4) :
     stop_des = int(input("Do you want to remove the stop words :\n1. Yes\n2. No\n"))
 
     if (stop_des == 1):
-        stop_d=f"Yes{stop_len}"
+        stop_d=f"stop{stop_len}"
         process_result_stop_words = stopwords_process(result, stop_list)
         result = process_result_stop_words
 
@@ -137,9 +137,9 @@ while (run != 4) :
 
     if (run == 3):
 
-        k = input("Enter the value of k : ")
+        k = float(input("Enter the value of k : "))
 
-        b = input("Enter the value of b : ")
+        b = float(input("Enter the value of b : "))
 
     ################################################################## BM25 processing ########################################################################
 
