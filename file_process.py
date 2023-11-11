@@ -71,13 +71,6 @@ def statistics(index, term_frequency):
     for term, postings_list in index.items():
         for docno in postings_list :
             doc_lengths [docno] += term_frequency[term][docno]
-
-    vocabulary_size = len(index)
-
-    # The collection_frequencies dictionary will contain the frequency of each term in the collection
-    collection_frequencies = defaultdict(int)
-    for term, postings_list in index.items():
-        collection_frequencies[term] = len(postings_list)
     
-    return doc_lengths, vocabulary_size, collection_frequencies
+    return doc_lengths
     

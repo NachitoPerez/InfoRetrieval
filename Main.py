@@ -5,7 +5,7 @@ from file_process import *
 from traitement_file import *
 from files_maneg import *
 
-#-------------------------------------------- Functions --------------------------------------------------------------------
+############################################################################# Functions ##################################################################
 
 # Function to measure execution time and index the file
 def process_file(file_path):
@@ -24,83 +24,139 @@ def stem_process(process):
     return post_process
 
 
-#----------------------------------------------- Main --------------------------------------------------------------------
+############################################################################# Main #######################################################################
 
 # A list that will contain all the collection paths
-all_paths=[]
-with open('paths.txt', 'r') as allpaths :
-    for path in allpaths:
-        all_paths.append(path.strip())
+file_path = "Text_Only_Ascii_Coll_NoSem"
 
 # Building the stop words list
 stop_list = stop_words()
+stop_len=len(stop_list) -1
 
 result = ()
 n=0
 dl=defaultdict(int)
 avdl = 0
 
-################################################################## EXERCICE 1 & 2 ##################################################################
+################################################################## Indexation #############################################################################
 
-# Loop over different sizes of collections
-for file_path in all_paths:
-    process_result = process_file(file_path)
-    result=process_result
-    doc_lengths, vocabulary_size, collection_frequencies = statistics(process_result[0], process_result[1])
-    n = len(doc_lengths)
-    index_txt(process_result[0], process_result[1])
+process_result = process_file(file_path)
 
-################################################################## EXERCICE 3 ##################################################################
+result=process_result
 
-# Stop words and Stemming
-for file_path in all_paths:
+doc_lengths = statistics(process_result[0], process_result[1])
 
-    process_result_stop_words = stopwords_process(result, stop_list)
-    process_result_stem = stem_process(process_result_stop_words)
+n = len(doc_lengths)
 
-    result=process_result_stem
-    doc_lengths, vocabulary_size, collection_frequencies = statistics(process_result_stem[0], process_result_stem[1])
+#index_txt(process_result[0], process_result[1])
+
+################################################################## Quey evaluation ######################################################################## 
+
+run_index=0
+
+run = 0 
+
+while (run != 4) :
+
+    run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
+
+    ################################################################## stemming & stop words ##################################################################
+
+    stop_des = int(input("Do you want to remove the stop words :\n1. Yes\n2. No\n"))
+
+    if (stop_des == 1):
+        stop_d=f"Yes{stop_len}"
+        process_result_stop_words = stopwords_process(result, stop_list)
+        result = process_result_stop_words
+
+    else :
+        stop_d="nostop"
+
+    stem_des = int(input("Do you want to stem the tokens :\n1. Yes\n2. No\n"))
+
+    if (stem_des == 1):
+        stem_d="porter"
+        process_result_stem = stem_process(result)
+        result = process_result_stem
+
+    else :
+        stem_d="nostem"
+
+    doc_lengths = statistics(result[0], result[1])
 
     avdl= sum(doc_lengths.values()) / n
 
     dl=doc_lengths
 
-    index_txt_no_stop_words_stem(result[0], result[1])
+    #index_txt_no_stop_words_stem(result[0], result[1])
 
-################################################################## EXERCICE 4 ##################################################################
+    ################################################################## Quey preparation ########################################################################
 
-smart_ltn=smart_ltn_weighting(result[0], result[1],n)
+    all_querys = defaultdict(str)
 
-index_txt_smart_ltn(result[0],smart_ltn)
+    with open('querys.txt', 'r') as allquerys :
+        for query in allquerys:
+            query_components = query.strip().split(maxsplit=1)
+            query_id, query_text = query_components
+            all_querys[query_id] = (query_text)
 
-################################################################## EXERCICE 5 ##################################################################
+    if (run==1):
 
-query = "olive oil health benefit"
+    ################################################################## Smart ltn processing ###################################################################
 
-eval = evaluate_query(query, smart_ltn)
+        smart_ltn=smart_ltn_weighting(result[0], result[1],n)
 
-top_1500_docs = list(eval.items())[:1500]
+        #index_txt_smart_ltn(result[0],smart_ltn)
 
-################################################################## EXERCICE 6 ##################################################################
+    ################################################################## Query processing for Smart ltn #########################################################
 
-smart_ltc=smart_ltc_weighting(smart_ltn)
+        for query_id, query in all_querys.items() :
 
-index_txt_smart_ltc(result[0],smart_ltc)
+            eval = evaluate_query(query, smart_ltn)
 
-################################################################## EXERCICE 7 ##################################################################
+            top_1500_docs = list(eval.items())[:1500]
 
-eval = evaluate_query(query, smart_ltc)
+            export_file(top_1500_docs, query_id, run_index, "ltn", "article",stop_d, stem_d, 'noparameters')
 
-top_1500_docs = list(eval.items())[:1500]
 
-################################################################## EXERCICE 8 ##################################################################
+    if (run==2):
+    ################################################################## Smart ltc processing ###################################################################
 
-BM25 = BM25_weighting(result[0], result[1], n, 1.2, 0.69, avdl, dl)
+        smart_ltc=smart_ltc_weighting(smart_ltn)
 
-index_txt_BM25(result[0],BM25)
+        #index_txt_smart_ltc(result[0],smart_ltc)
 
-################################################################## EXERCICE 9 ##################################################################
+    ################################################################## Query processing for Smart ltc #########################################################
 
-eval = evaluate_query(query, BM25)
+        for query_id, query in all_querys.items() :
 
-top_1500_docs = list(eval.items())[:1500]
+            eval = evaluate_query(query, smart_ltc)
+
+            top_1500_docs = list(eval.items())[:1500]
+
+            export_file(top_1500_docs, query_id, run_index, "ltc", "article",stop_d, stem_d, 'noparameters')
+
+
+    if (run == 3):
+
+        k = input("Enter the value of k : ")
+
+        b = input("Enter the value of b : ")
+
+    ################################################################## BM25 processing ########################################################################
+
+        BM25 = BM25_weighting(result[0], result[1], n, k, b, avdl, dl)
+
+        #index_txt_BM25(result[0],BM25)
+
+    ################################################################## Query processing for BM25 ###############################################################
+
+        for query_id, query in all_querys.items() :
+
+            eval = evaluate_query(query, BM25)
+
+            top_1500_docs = list(eval.items())[:1500]
+
+            export_file(top_1500_docs, run_index, query_id, "ltc", "article",stop_d, stem_d, {k:k, b:b})
+    
+    run_index+=1
