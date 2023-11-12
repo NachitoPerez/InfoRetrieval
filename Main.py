@@ -4,6 +4,7 @@
 from file_process import *
 from traitement_file import *
 from files_maneg import *
+import copy
 
 ############################################################################# Functions ##################################################################
 
@@ -42,13 +43,15 @@ avdl = 0
 
 process_result = process_file(file_path)
 
-result=process_result
+index_result=process_result
+
+result = copy.deepcopy(index_result)
 
 doc_lengths = statistics(process_result[0], process_result[1])
 
 n = len(doc_lengths)
 
-#index_txt(process_result[0], process_result[1])
+#index_txt(result[0], result[1])
 
 ################################################################## Quey evaluation ######################################################################## 
 
@@ -58,7 +61,7 @@ run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n
 
 while (run != 4) :
 
-    ################################################################## stemming & stop words ##################################################################
+################################################################## stemming & stop words ##################################################################
 
     stop_des = int(input("Do you want to remove the stop words :\n1. Yes\n2. No\n"))
 
@@ -66,6 +69,7 @@ while (run != 4) :
         stop_d=f"stop{stop_len}"
         process_result_stop_words = stopwords_process(result, stop_list)
         result = process_result_stop_words
+        #index_txt_no_stop_words_stem(result[0], result[1])
 
     else :
         stop_d="nostop"
@@ -76,6 +80,7 @@ while (run != 4) :
         stem_d="porter"
         process_result_stem = stem_process(result)
         result = process_result_stem
+        #index_txt_no_stop_words_stem(result[0], result[1])
 
     else :
         stem_d="nostem"
@@ -85,8 +90,6 @@ while (run != 4) :
     avdl= sum(doc_lengths.values()) / n
 
     dl=doc_lengths
-
-    #index_txt_no_stop_words_stem(result[0], result[1])
 
     ################################################################## Quey preparation ########################################################################
 
@@ -104,7 +107,7 @@ while (run != 4) :
 
         smart_ltn=smart_ltn_weighting(result[0], result[1],n)
 
-        #index_txt_smart_ltn(result[0],smart_ltn)
+        #index_txt_smart_ltn(result[0],smart_ltn,run_index)
 
     ################################################################## Query processing for Smart ltn #########################################################
 
@@ -116,13 +119,17 @@ while (run != 4) :
 
             export_file(top_1500_docs, query_id, run_index, "ltn", "article",stop_d, stem_d, 'noparameters')
 
+            #query_result(top_1500_docs,run_index, query_id)
+
 
     if (run==2):
     ################################################################## Smart ltc processing ###################################################################
 
+        smart_ltn=smart_ltn_weighting(result[0], result[1],n)
+        
         smart_ltc=smart_ltc_weighting(smart_ltn)
 
-        #index_txt_smart_ltc(result[0],smart_ltc)
+        #index_txt_smart_ltc(result[0],smart_ltc,run_index)
 
     ################################################################## Query processing for Smart ltc #########################################################
 
@@ -133,6 +140,9 @@ while (run != 4) :
             top_1500_docs = list(eval.items())[:1500]
 
             export_file(top_1500_docs, query_id, run_index, "ltc", "article",stop_d, stem_d, 'noparameters')
+
+            #query_result(top_1500_docs,run_index, query_id)
+
 
 
     if (run == 3):
@@ -145,7 +155,7 @@ while (run != 4) :
 
         BM25 = BM25_weighting(result[0], result[1], n, k, b, avdl, dl)
 
-        #index_txt_BM25(result[0],BM25)
+        #index_txt_BM25(result[0],BM25,run_index)
 
     ################################################################## Query processing for BM25 ###############################################################
 
@@ -156,7 +166,12 @@ while (run != 4) :
             top_1500_docs = list(eval.items())[:1500]
 
             export_file(top_1500_docs, query_id, run_index, "BM25", "article",stop_d, stem_d, {'k':k, 'b':b})
+
+            #query_result(top_1500_docs,run_index, query_id)
+
     
     run_index+=1
+
+    result = copy.deepcopy(index_result)
 
     run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
