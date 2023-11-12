@@ -113,16 +113,15 @@ def BM25_weighting (index, term_frequency, n, k, b, avdl, doc_lingth):
                 BM25_dict [term][docno] = weight
     return BM25_dict
 
-def evaluate_query(query, smart, stop_d, stem_d, stop_list):
+def evaluate_query(query, smart, stem_d, stop_list):
     eval_query = defaultdict(lambda: defaultdict(float))
     doc_scorring = defaultdict(float)
     query_words = query.split()
     stm_l=[]
 
-    if (stop_d != "nostop"):
-        for word in query_words:
-            if word in stop_list :
-                query_words.remove(word)
+    for word in query_words:
+        if word in stop_list :
+            query_words.remove(word)
 
     if (stem_d != "nostem"):
         stemm = PorterStemmer()

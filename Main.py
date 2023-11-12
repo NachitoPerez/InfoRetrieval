@@ -113,7 +113,7 @@ while (run != 4) :
 
         for query_id, query in all_querys.items() :
 
-            eval = evaluate_query(query, smart_ltn, stop_d, stem_d, stop_list)
+            eval = evaluate_query(query, smart_ltn, stem_d, stop_list)
 
             top_1500_docs = list(eval.items())[:1500]
 
@@ -135,7 +135,7 @@ while (run != 4) :
 
         for query_id, query in all_querys.items() :
 
-            eval = evaluate_query(query, smart_ltc, stop_d, stem_d, stop_list)
+            eval = evaluate_query(query, smart_ltc, stem_d, stop_list)
 
             top_1500_docs = list(eval.items())[:1500]
 
@@ -161,7 +161,7 @@ while (run != 4) :
 
         for query_id, query in all_querys.items() :
 
-            eval = evaluate_query(query, BM25, stop_d, stem_d, stop_list)
+            eval = evaluate_query(query, BM25, stem_d, stop_list)
 
             top_1500_docs = list(eval.items())[:1500]
 
