@@ -1,10 +1,12 @@
 # Importing the re library to make some regex manipulation, the time libary to mesure the execution time, the pyplot
 # to build graphycs, and all the functions from the file file_process that we created.
 
+from BM25_tuning import BM25_tuning
 from file_process import *
 from traitement_file import *
 from files_maneg import *
 import copy
+import os
 
 ############################################################################# Functions ##################################################################
 
@@ -24,6 +26,28 @@ def stem_process(process):
     post_process=stemmer(process[0],process[1])
     return post_process
 
+def get_run_counter():
+    counter_file_path = 'run_counter.txt'
+
+    # Check if the counter file exists
+    if not os.path.exists(counter_file_path):
+        # If not, create the file and initialize the counter to 1
+        with open(counter_file_path, 'w') as counter_file:
+            counter_file.write('1')
+        return 1
+
+    # If the file exists, read the counter value and increment it
+    with open(counter_file_path, 'r') as counter_file:
+        counter = int(counter_file.read())
+        counter += 1    
+
+    return counter
+
+def update_counter(new_counter:int):
+    counter_file_path = 'run_counter.txt'
+    
+    with open(counter_file_path, 'w') as counter_file:
+        counter_file.write(str(new_counter))
 
 ############################################################################# Main #######################################################################
 
@@ -55,11 +79,12 @@ n = len(doc_lengths)
 
 ################################################################## Quey evaluation ######################################################################## 
 
-run_index=1
+run=int(input("Choose which weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. BM25 Tuning\n 0. To exit\n"))
 
-run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
-
-while (run != 4) :
+while (run > 0 and run < 5) :
+    
+    # Get the current run counter
+    run_index = get_run_counter()
 
 ################################################################## stemming & stop words ##################################################################
 
@@ -121,7 +146,6 @@ while (run != 4) :
 
             #query_result(top_1500_docs,run_index, query_id)
 
-
     if (run==2):
     ################################################################## Smart ltc processing ###################################################################
 
@@ -143,10 +167,7 @@ while (run != 4) :
 
             #query_result(top_1500_docs,run_index, query_id)
 
-
-
     if (run == 3):
-
         k = float(input("Enter the value of k : "))
 
         b = float(input("Enter the value of b : "))
@@ -154,8 +175,6 @@ while (run != 4) :
     ################################################################## BM25 processing ########################################################################
 
         BM25 = BM25_weighting(result[0], result[1], n, k, b, avdl, dl)
-
-        #index_txt_BM25(result[0],BM25,run_index)
 
     ################################################################## Query processing for BM25 ###############################################################
 
@@ -166,12 +185,13 @@ while (run != 4) :
             top_1500_docs = list(eval.items())[:1500]
 
             export_file(top_1500_docs, query_id, run_index, "BM25", "article",stop_d, stem_d, {'k':k, 'b':b})
-
-            #query_result(top_1500_docs,run_index, query_id)
-
-    
-    run_index+=1
+            
+    if (run == 4):
+        BM25_tuning(result=result, n=n, dl=dl, avdl=avdl, all_querys=all_querys, stem_d=stem_d, stop_list=stop_list, stop_d=stop_d)
+        run_index -= 1    
 
     result = copy.deepcopy(index_result)
+    
+    update_counter(run_index)
 
-    run=int(input("Choose wich weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. To exit\n"))
+    run=int(input("Choose which weigthing function you want to run :\n 1. Smart Ltn\n 2. Smart Ltc\n 3. BM25\n 4. BM25 Tuning\n 0. To exit\n"))
