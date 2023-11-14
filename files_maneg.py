@@ -55,7 +55,7 @@ def export_file(doc_list, query_id, run_id, weighting_function, granularity,stop
         parm = '_'+parameters
 
 
-    with open(f'runs/SaadZakariaBadreddineIgnacio_{run_id}_{weighting_function}_{granularity}_{stop}_{stem}{parm}.txt', 'a') as file:
+    with open(f'SaadZakariaBadreddineIgnacio_{run_id}_{weighting_function}_{granularity}_{stop}_{stem}{parm}.txt', 'a') as file:
         for i in range(0, len(doc_list)):        
             file.write(f"{query_id} Q0 {doc_list[i][0]} {i+1} {doc_list[i][1]} SaadZakariaBadreddineIgnacio /article[1]\n")
 
