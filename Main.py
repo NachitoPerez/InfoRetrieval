@@ -27,7 +27,7 @@ def stem_process(process):
     return post_process
 
 def get_run_counter():
-    counter_file_path = 'run_counter.txt'
+    counter_file_path = 'utils/run_counter.txt'
 
     # Check if the counter file exists
     if not os.path.exists(counter_file_path):
@@ -44,7 +44,7 @@ def get_run_counter():
     return counter
 
 def update_counter(new_counter:int):
-    counter_file_path = 'run_counter.txt'
+    counter_file_path = 'utils/run_counter.txt'
     
     with open(counter_file_path, 'w') as counter_file:
         counter_file.write(str(new_counter))
@@ -52,7 +52,7 @@ def update_counter(new_counter:int):
 ############################################################################# Main #######################################################################
 
 # A list that will contain all the collection paths
-file_path = "Text_Only_Ascii_Coll_NoSem"
+file_path = "utils/Text_Only_Ascii_Coll_NoSem"
 
 # Building the stop words list
 stop_list = stop_words()
@@ -120,7 +120,7 @@ while (run > 0 and run < 5) :
 
     all_querys = defaultdict(str)
 
-    with open('querys.txt', 'r') as allquerys :
+    with open('utils/querys.txt', 'r') as allquerys :
         for query in allquerys:
             query_components = query.strip().split(maxsplit=1)
             query_id, query_text = query_components

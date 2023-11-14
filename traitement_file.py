@@ -12,7 +12,7 @@ post_term_frequency = defaultdict(lambda: defaultdict(int))
 
 def stop_words():
     stop_list = []
-    with open('stop-words/stop-words-english4.txt', 'r', encoding='utf-8') as stop_file:
+    with open('utils/stop-words-english4.txt', 'r', encoding='utf-8') as stop_file:
         for line in stop_file:
             word = line.strip()
             stop_list.append(word)
