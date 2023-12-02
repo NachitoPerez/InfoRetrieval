@@ -31,9 +31,11 @@ def process_file_tags(files_paths):
     start_in = time.time()
 
     process = ({},{})
-
+    i=0
     for path in files_paths :
         process = file_processing_tags(path, process)  
+        i+=1
+        print(i)
     
     end_in = time.time()
 
@@ -94,8 +96,9 @@ for xml_doc in os.listdir(XML_files_path_base):
         XML_path = os.path.join(XML_files_path_base, xml_doc)
         XML_files_paths.add(XML_path)
 
-for path in XML_files_paths :
-    Combine_files(path)
+Combine_files_txt(XML_files_paths)
+
+Combine_files_xml(XML_files_paths)
 
 end_xml_comb_files=time.time()
 Comb_time = end_xml_comb_files-start_xml_comb_files

@@ -11,21 +11,19 @@ from collections import defaultdict
 
 # Define the function that will process the different collections 
 
-def file_processing_tags (file_path, process):
+def file_processing_tags (file_path):
 
     # Initialize the index and term frequency dictionaries
     # The index dictionary is a dictionary where the default value for new keys is an empty set that will contain
     # all the docno of each index : {'index':{D0, D1, ....},...}
 
     index = defaultdict(lambda: defaultdict(set))
-    index.update(process[0])
 
     # The term_frequency dictionary is a dictionary where the default value for new keys is an other dictionary 
     # that will contain the list of docno as values and the frequency of a term in the same document as a key,
     # and that for each term : { 'term' : { 'docno' : frequency (0 by default, ...)}, ...}
 
     term_frequency = defaultdict(lambda: defaultdict(int))
-    term_frequency.update(process[1])
 
     # Read the document collection from a file
 
@@ -36,8 +34,9 @@ def file_processing_tags (file_path, process):
     xml_content = re.sub(pattern, '', xml_content)
     
     root = ET.fromstring(xml_content)
+    
 
-    id_element = root.find('.//id')
+    id_element = root.findall('.//id')
     sections = root.findall('.//sec')
 
     
