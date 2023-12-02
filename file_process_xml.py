@@ -11,7 +11,7 @@ from collections import defaultdict
 
 # Define the function that will process the different collections 
 
-def file_processing (file_path, process):
+def file_processing_tags (file_path, process):
 
     # Initialize the index and term frequency dictionaries
     # The index dictionary is a dictionary where the default value for new keys is an empty set that will contain
@@ -92,7 +92,7 @@ def file_processing (file_path, process):
 
     return index, term_frequency
 
-def statistics(index, term_frequency):
+def statistics_tags(index, term_frequency):
     
     # The doc_lengths dictionary is a dictionary that will contain the length of each documment based on it's docno
     # Each key will be the docno of the documment and the default value for new keys is 0 

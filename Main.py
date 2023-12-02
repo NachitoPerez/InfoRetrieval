@@ -3,6 +3,7 @@
 
 from BM25_tuning import BM25_tuning
 from file_process import *
+from file_process_xml import *
 from traitement_file import *
 from files_maneg import *
 import copy
@@ -24,6 +25,21 @@ def process_file(file_path):
           
     return execution_time, process
 
+# Function to measure execution time and index the file with tags
+def process_file_tags(files_paths):
+    
+    start_in = time.time()
+
+    process = ({},{})
+
+    for path in files_paths :
+        process = file_processing_tags(path, process)  
+    
+    end_in = time.time()
+
+    execution_time = end_in - start_in
+          
+    return execution_time, process
 
 # Function to process the deleted stop words new index list
 def stopwords_process(process, stop_list):
@@ -32,6 +48,11 @@ def stopwords_process(process, stop_list):
 
 # Function to stem the new index list
 def stem_process(process):
+    post_process=stemmer(process[0],process[1])
+    return post_process
+
+# Function to stem the new index list with tags
+def stem_process_tags(process):
     post_process=stemmer(process[0],process[1])
     return post_process
 
@@ -91,30 +112,61 @@ dl=defaultdict(int)
 avdl = 0
 
 ################################################################## Indexation #############################################################################
+index_d=int(input("Choose which indexing function you want to run :\n 1. Without XML tags\n 2. With XML tags\n"))
 
-execution_time, process_result = process_file('utils/Combined_XML_files.txt')
+while (index_d > 0 and index_d < 3) :
 
-print("Execution time of the indixation is :", execution_time, 's\n')
+    if index_d == 1 :
+        execution_time, process_result = process_file('utils/Combined_XML_files.txt')
 
-print ('---------------------------------------- without pre-treatment ----------------------------------------\n')
+        print("Execution time of the indixation is :", execution_time, 's\n')
 
-index_result=process_result
+        print ('---------------------------------------- without pre-treatment ----------------------------------------\n')
 
-result = copy.deepcopy(index_result)
+        index_result=process_result
 
-doc_lengths, vocabulary_size, collection_frequencies, statistics_execution_time = statistics(process_result[0], process_result[1])
-n = len(doc_lengths)
+        result = copy.deepcopy(index_result)
+
+        doc_lengths, vocabulary_size, collection_frequencies, statistics_execution_time = statistics(process_result[0], process_result[1])
+        n = len(doc_lengths)
+            
+        print("Statistics : \n")
+        print("Execution time of the statistical calculations :", statistics_execution_time, 's\n')
+        print (f'The avrege length of a document in the {n} document collection is : ', sum(doc_lengths.values()) / len(doc_lengths), 'Word/Document') # Average document length of a collection
+            
+        print('The size of the vocabulary of the collection is : ', vocabulary_size, 'Word')  # Vocabulary size of a collection
+            
+        avg=sum(collection_frequencies.values()) / len(collection_frequencies)
+        print ('The avrege collection frequency of a term in the collection is : ', avg,' Time\n') # Average collection frequency of terms of a collection
+
+        #index_txt(result[0], result[1])
+
+    if index_d == 2 :
+
+        execution_time, process_result = process_file_tags(XML_files_paths)
+
+        print("Execution time of the indixation is :", execution_time, 's\n')
+
+        print ('---------------------------------------- without pre-treatment ----------------------------------------\n')
+
+        index_result=process_result
+
+        result = copy.deepcopy(index_result)
+
+        doc_lengths, vocabulary_size, collection_frequencies, statistics_execution_time = statistics_tags(process_result[0], process_result[1])
+        n = len(doc_lengths)
+            
+        print("Statistics : \n")
+        print("Execution time of the statistical calculations :", statistics_execution_time, 's\n')
+        print (f'The avrege length of a document in the {n} document collection is : ', sum(doc_lengths.values()) / len(doc_lengths), 'Word/Document') # Average document length of a collection
+            
+        print('The size of the vocabulary of the collection is : ', vocabulary_size, 'Word')  # Vocabulary size of a collection
+            
+        avg=sum(collection_frequencies.values()) / len(collection_frequencies)
+        print ('The avrege collection frequency of a term in the collection is : ', avg,' Time\n') # Average collection frequency of terms of a collection
     
-print("Statistics : \n")
-print("Execution time of the statistical calculations :", statistics_execution_time, 's\n')
-print (f'The avrege length of a document in the {n} document collection is : ', sum(doc_lengths.values()) / len(doc_lengths), 'Word/Document') # Average document length of a collection
-    
-print('The size of the vocabulary of the collection is : ', vocabulary_size, 'Word')  # Vocabulary size of a collection
-    
-avg=sum(collection_frequencies.values()) / len(collection_frequencies)
-print ('The avrege collection frequency of a term in the collection is : ', avg,' Time\n') # Average collection frequency of terms of a collection
+    index_d=int(input("Choose which indexing function you want to run :\n 1. Without XML tags\n 2. With XML tags\n"))
 
-#index_txt(result[0], result[1])
 
 ################################################################## Quey evaluation ######################################################################## 
 

@@ -42,6 +42,18 @@ def stemmer(index, term_frequency):
             post_term_frequency[stemmed_term][docno]+=term_frequency[term][docno]
     return post_process, post_term_frequency
 
+def stemmer_tags(index, term_frequency):
+
+    post_process = defaultdict(lambda: defaultdict(set))
+    post_term_frequency = defaultdict(lambda: defaultdict(int))
+    stemm = PorterStemmer()
+    for term, posting_list in index.items():
+        stemmed_term = stemm.stem(term, 0, len(term) - 1)
+        for docno in posting_list.keys() : 
+            post_process[stemmed_term].add(docno)
+            post_term_frequency[stemmed_term][docno]+=term_frequency[term][docno]
+    return post_process, post_term_frequency
+
 def SmartLtn (df, tf, n):
     if tf >0:
         wtf= (1+log10(tf))
