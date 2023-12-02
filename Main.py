@@ -79,7 +79,7 @@ for path in XML_files_paths :
 end_xml_comb_files=time.time()
 Comb_time = end_xml_comb_files-start_xml_comb_files
 
-print("Execution time to generate a txt doc that contains all the xml documents is : ", Comb_time)
+print("Execution time to generate a txt doc that contains all the xml documents is : ", Comb_time, ' s')
 
 # Building the stop words list
 stop_list = stop_words()
