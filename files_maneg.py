@@ -1,3 +1,7 @@
+import xml.etree.ElementTree as ET
+import re
+import os
+
 # This file contains two functions, the first one exports the Indexes in a text file with a similar format
 # to the one in the index_printing function. The seconde one outputs a text file that contains the indexex in the
 # same type of the varibale "idex" (dictionary).
@@ -67,3 +71,40 @@ def query_result(doc_list,run_id, query_id):
             file.write("____________________________________\n")
             file.write(f"|   {doc_list[i][0]}  |      {doc_list[i][1]}    |\n")
             file.write("____________________________________\n")
+
+def Combine_files (file_path):
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        xml_content = file.read()
+
+    pattern = re.compile(r'&[^;]+;')
+    xml_content = re.sub(pattern, '', xml_content)
+    
+    root = ET.fromstring(xml_content)
+
+    id_element = root.find('.//id')
+
+    docno = id_element.text
+
+    doc = ET.tostring(root, encoding='unicode', method='text').strip().replace('\n', ' ')
+
+    docnos=[]
+
+    if os.path.exists('utils/Combined_XML_files.txt') :
+        
+        with open('utils/Combined_XML_files.txt', 'r', encoding='utf-8') as file:
+
+            docs = file.read()
+            docnos_find= re.findall(r'<doc><docno>.*?</docno>', docs, re.DOTALL)
+            for i in docnos_find : 
+                search=re.search(r'<doc><docno>(.*?)</docno>', i, re.DOTALL)
+                docnos.append(search.group(1))
+            file.close()
+
+    with open('utils/Combined_XML_files.txt', 'a', encoding='utf-8') as file:
+        if docno not in docnos :
+            file.write("<doc><docno>" + docno + '</docno>\n')
+            file.write(doc + '\n')
+            file.write('</doc>\n')
+        file.close()
+
