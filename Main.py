@@ -26,16 +26,11 @@ def process_file(file_path):
     return execution_time, process
 
 # Function to measure execution time and index the file with tags
-def process_file_tags(files_paths):
+def process_file_tags(files_path):
     
     start_in = time.time()
 
-    process = ({},{})
-    i=0
-    for path in files_paths :
-        process = file_processing_tags(path, process)  
-        i+=1
-        print(i)
+    process = file_processing_tags(files_path)  
     
     end_in = time.time()
 
@@ -85,8 +80,6 @@ def update_counter(new_counter:int):
 
 # A list that will contain all the collection paths
 
-start_xml_comb_files=time.time()
-
 XML_files_path_base = "utils/XML_Coll_withSem/"
 
 XML_files_paths=set()
@@ -96,14 +89,22 @@ for xml_doc in os.listdir(XML_files_path_base):
         XML_path = os.path.join(XML_files_path_base, xml_doc)
         XML_files_paths.add(XML_path)
 
-Combine_files_txt(XML_files_paths)
+start_xml_comb_files=time.time()
 
-Combine_files_xml(XML_files_paths)
+Combine_files_txt(XML_files_paths) #Generate the txt file of all the XML docs without taking the tags into consideration
 
 end_xml_comb_files=time.time()
 Comb_time = end_xml_comb_files-start_xml_comb_files
 
-print("Execution time to generate a txt doc that contains all the xml documents is : ", Comb_time, ' s')
+start_xml_comb_files_tag=time.time()
+
+Combine_files_xml(XML_files_paths) #Generate the txt file of all the XML docs wiht taking the tags into consideration
+
+end_xml_comb_files_tag=time.time()
+Comb_time_tag = end_xml_comb_files_tag-start_xml_comb_files_tag
+
+print("Execution time to generate the txt files that contains all the xml documents without taking xml tags into consideration is : ", Comb_time, ' s\n')
+print("Execution time to generate the txt files that contains all the xml documents with taking xml tags into consideration is : ", Comb_time_tag, ' s\n')
 
 # Building the stop words list
 stop_list = stop_words()
@@ -115,61 +116,55 @@ dl=defaultdict(int)
 avdl = 0
 
 ################################################################## Indexation #############################################################################
-index_d=int(input("Choose which indexing function you want to run :\n 1. Without XML tags\n 2. With XML tags\n"))
 
-while (index_d > 0 and index_d < 3) :
+################################################################## No XML Tags #############################################################################
 
-    if index_d == 1 :
-        execution_time, process_result = process_file('utils/Combined_XML_files.txt')
+execution_time, process_result = process_file('utils/Combined_XML_files.txt')
 
-        print("Execution time of the indixation is :", execution_time, 's\n')
+print("Execution time of the indixation without xml tags is :", execution_time, 's\n')
 
-        print ('---------------------------------------- without pre-treatment ----------------------------------------\n')
+print ('---------------------------------------- without pre-treatment or xml tags ----------------------------------------\n')
 
-        index_result=process_result
+index_result=process_result
 
-        result = copy.deepcopy(index_result)
+result = copy.deepcopy(index_result)
 
-        doc_lengths, vocabulary_size, collection_frequencies, statistics_execution_time = statistics(process_result[0], process_result[1])
-        n = len(doc_lengths)
+doc_lengths, vocabulary_size, collection_frequencies, statistics_execution_time = statistics(process_result[0], process_result[1])
+n = len(doc_lengths)
             
-        print("Statistics : \n")
-        print("Execution time of the statistical calculations :", statistics_execution_time, 's\n')
-        print (f'The avrege length of a document in the {n} document collection is : ', sum(doc_lengths.values()) / len(doc_lengths), 'Word/Document') # Average document length of a collection
+print("Statistics : \n")
+print("Execution time of the statistical calculations :", statistics_execution_time, 's\n')
+print (f'The avrege length of a document in the {n} document collection is : ', sum(doc_lengths.values()) / len(doc_lengths), 'Word/Document') # Average document length of a collection
             
-        print('The size of the vocabulary of the collection is : ', vocabulary_size, 'Word')  # Vocabulary size of a collection
+print('The size of the vocabulary of the collection is : ', vocabulary_size, 'Word')  # Vocabulary size of a collection
             
-        avg=sum(collection_frequencies.values()) / len(collection_frequencies)
-        print ('The avrege collection frequency of a term in the collection is : ', avg,' Time\n') # Average collection frequency of terms of a collection
+avg=sum(collection_frequencies.values()) / len(collection_frequencies)
+print ('The avrege collection frequency of a term in the collection is : ', avg,' Time\n') # Average collection frequency of terms of a collection
 
-        #index_txt(result[0], result[1])
+################################################################## XML Tags #############################################################################
 
-    if index_d == 2 :
+execution_time_tag, process_result_tag = process_file_tags('utils/Combined_XML.txt')
 
-        execution_time, process_result = process_file_tags(XML_files_paths)
+print("Execution time of the indixation with xml tags is :", execution_time_tag, 's\n')
 
-        print("Execution time of the indixation is :", execution_time, 's\n')
+print ('---------------------------------------- without pre-treatment with xml tags ----------------------------------------\n')
 
-        print ('---------------------------------------- without pre-treatment ----------------------------------------\n')
+index_result_tag=process_result_tag
 
-        index_result=process_result
+result_tag = copy.deepcopy(index_result_tag)
 
-        result = copy.deepcopy(index_result)
-
-        doc_lengths, vocabulary_size, collection_frequencies, statistics_execution_time = statistics_tags(process_result[0], process_result[1])
-        n = len(doc_lengths)
+doc_lengths_tag, vocabulary_size_tag, collection_frequencies_tag, statistics_execution_time_tag = statistics_tags(process_result_tag[0], process_result_tag[1])
+n_tag = len(doc_lengths_tag)
             
-        print("Statistics : \n")
-        print("Execution time of the statistical calculations :", statistics_execution_time, 's\n')
-        print (f'The avrege length of a document in the {n} document collection is : ', sum(doc_lengths.values()) / len(doc_lengths), 'Word/Document') # Average document length of a collection
+print("Statistics : \n")
+print("Execution time of the statistical calculations :", statistics_execution_time_tag, 's\n')
+print (f'The avrege length of a document in the {n_tag} document collection is : ', sum(doc_lengths_tag.values()) / len(doc_lengths_tag), 'Word/Document') # Average document length of a collection
             
-        print('The size of the vocabulary of the collection is : ', vocabulary_size, 'Word')  # Vocabulary size of a collection
+print('The size of the vocabulary of the collection is : ', vocabulary_size_tag, 'Word')  # Vocabulary size of a collection
             
-        avg=sum(collection_frequencies.values()) / len(collection_frequencies)
-        print ('The avrege collection frequency of a term in the collection is : ', avg,' Time\n') # Average collection frequency of terms of a collection
+avg_tag=sum(collection_frequencies_tag.values()) / len(collection_frequencies_tag)
+print ('The avrege collection frequency of a term in the collection is : ', avg_tag,' Time\n') # Average collection frequency of terms of a collection
     
-    index_d=int(input("Choose which indexing function you want to run :\n 1. Without XML tags\n 2. With XML tags\n"))
-
 
 ################################################################## Quey evaluation ######################################################################## 
 

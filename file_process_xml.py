@@ -1,101 +1,94 @@
 import re
 import time
 import xml.etree.ElementTree as ET
-
-# The collections library in Python provides a collection of useful and efficient data structures
-# beyond the built-in data types like lists, dictionaries, and sets.
-# Here, we are goinig to use the defaultdict structure that allows us to specify a default value for new keys,
-# and to avoid key errors when accessing dictionary elements.
+from files_maneg import *
 
 from collections import defaultdict
 
-# Define the function that will process the different collections 
-
 def file_processing_tags (file_path):
-
-    # Initialize the index and term frequency dictionaries
-    # The index dictionary is a dictionary where the default value for new keys is an empty set that will contain
-    # all the docno of each index : {'index':{D0, D1, ....},...}
 
     index = defaultdict(lambda: defaultdict(set))
 
-    # The term_frequency dictionary is a dictionary where the default value for new keys is an other dictionary 
-    # that will contain the list of docno as values and the frequency of a term in the same document as a key,
-    # and that for each term : { 'term' : { 'docno' : frequency (0 by default, ...)}, ...}
-
     term_frequency = defaultdict(lambda: defaultdict(int))
 
-    # Read the document collection from a file
-
     with open(file_path, 'r', encoding='utf-8') as file:
-        xml_content = file.read()
-
-    pattern = re.compile(r'&[^;]+;')
-    xml_content = re.sub(pattern, '', xml_content)
+        docs = file.read()
     
-    root = ET.fromstring(xml_content)
-    
-
-    id_element = root.findall('.//id')
-    sections = root.findall('.//sec')
-
-    
-    # Getting all the document's number, title, and content 
-    docno = id_element.text
-
-    doc_xml = defaultdict(lambda: defaultdict(str))
-    
-    i=1
-    
-    for section in sections :
-        
-        paragraphes = section.findall('.//p')
-
-
-        j=1
-
-        for paragraphe in paragraphes:
-
-            p = ET.tostring(paragraphe, encoding='unicode', method='text').strip().replace('\n', '')
-
-            doc_xml[section.tag +f'[{i}]'][paragraphe.tag +f'[{j}]']=p
-
-            j+=1
-        
-        i+=1
-            
-    doc_xml = dict(sorted(doc_xml.items()))
-
+    docno = ''
     words = ''
+
+    documents = re.findall(r'<doc><docno>.*?</docno>.*?</doc>', docs, re.DOTALL)
+
+    for document in documents:
+            
+        statement = re.search(r'<docno>(.*?)</docno>(.*?)</doc>', document, re.DOTALL)
+        if statement:
+            docno = statement.group(1)
+            doc = statement.group(2)
+
+        tags_sec = re.findall(r'<sec>(.*?)</sec>', doc, re.DOTALL)
+        if tags_sec:
+            sections=tags_sec
+
+        doc_xml = defaultdict(lambda: defaultdict(str))
         
-    # Going through each document of the documents individually 
+        i=1
 
-    for sec, section in doc_xml.items():
+        for section in sections :
 
-        for p, paragraphe in section.items():
+            tags_p = re.findall(r'<p>(.*?)</p>', section, re.DOTALL)
+            if tags_p:
+                paragraphs=tags_p
 
-            words = re.findall(r'\b[a-zA-Z_]+\b', paragraphe.lower())
+            j=1
 
-            cleaned_words = [cleaned_word for word in words for cleaned_word in re.split(r'_+', word) if cleaned_word]
+            for paragraph in paragraphs:
 
-            for word in cleaned_words:
-                index[word][docno].add('/bdy[1]/' + sec + '/' + p)
-                term_frequency[word][docno] += 1
+                doc_xml['sec'+f'[{i}]']['p' +f'[{j}]']=paragraph
 
+                j+=1
+            
+            i+=1
+        
+        tags_op = re.findall(r'<p>(.*?)</p>', document, re.DOTALL)
+        if tags_op:
+            o_paragraphs=tags_op
+            k=1
+            
+            for o_paragraph in o_paragraphs:
 
-    # Sort the dictionarys           
+                if o_paragraph not in paragraphs :
+
+                    doc_xml['bdy[1]']['p' +f'[{k}]']=o_paragraph
+
+                    k+=1
+
+        doc_xml = dict(sorted(doc_xml.items()))
+        
+        for sec, section in doc_xml.items():
+
+            for p, paragraphe in section.items():
+
+                words = re.findall(r'\b[a-zA-Z_]+\b', paragraphe.lower())
+
+                cleaned_words = [cleaned_word for word in words for cleaned_word in re.split(r'_+', word) if cleaned_word]
+
+                for word in cleaned_words:
+
+                    if sec != 'bdy[1]' :
+                        index[word][docno].add('/bdy[1]/' + sec + '/' + p)
+                        term_frequency[word][docno] += 1
+                    else :
+                        index[word][docno].add(sec + '/' + p)
+                        term_frequency[word][docno] += 1
+
     index = dict(sorted(index.items()))
     term_frequency = dict(sorted(term_frequency.items()))
-    
-
 
     return index, term_frequency
 
 def statistics_tags(index, term_frequency):
-    
-    # The doc_lengths dictionary is a dictionary that will contain the length of each documment based on it's docno
-    # Each key will be the docno of the documment and the default value for new keys is 0 
-    # doc_lengths : { '1000' : 0, ...}
+ 
     start = time.time()
     doc_lengths = defaultdict(int)
     for term, postings_list in index.items():
@@ -104,7 +97,6 @@ def statistics_tags(index, term_frequency):
 
     vocabulary_size = len(index)
 
-    # The collection_frequencies dictionary will contain the frequency of each term in the collection
     collection_frequencies = defaultdict(int)
     for term, postings_list in index.items():
         collection_frequencies[term] = len(postings_list)
