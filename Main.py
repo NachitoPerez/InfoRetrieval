@@ -49,8 +49,8 @@ def stem_process(process):
     return post_process
 
 # Function to stem the new index list with tags
-def stem_process_tags(process):
-    post_process=stemmer(process[0],process[1])
+def stem_process_tag(process):
+    post_process=stemmer_tag(process[0],process[1])
     return post_process
 
 def get_run_counter():
@@ -184,7 +184,9 @@ while (run > 0 and run < 5) :
     if (stop_des == 1):
         stop_d=f"stop{stop_len}"
         process_result_stop_words = stopwords_process(result, stop_list)
+        process_result_stop_words_tag = stopwords_process(result_tag, stop_list)
         result = process_result_stop_words
+        result_tag = process_result_stop_words_tag
         #index_txt_no_stop_words_stem(result[0], result[1])
 
     else :
@@ -195,11 +197,15 @@ while (run > 0 and run < 5) :
     if (stem_des == 1):
         stem_d="porter"
         process_result_stem = stem_process(result)
+        process_result_stem_tag = stem_process_tag(result_tag)
         result = process_result_stem
+        result_tag = process_result_stem_tag
         #index_txt_no_stop_words_stem(result[0], result[1])
 
     else :
         stem_d="nostem"
+
+    print('---------------------------------------------------- Index list ----------------------------------------------------')
 
     doc_lengths, vocabulary_size, collection_frequencies, statistics_execution_time = statistics(result[0], result[1])
 
@@ -215,6 +221,23 @@ while (run > 0 and run < 5) :
     avdl= sum(doc_lengths.values()) / n
 
     dl=doc_lengths
+
+    print('---------------------------------------------------- Taged Index list ----------------------------------------------------')
+
+    doc_lengths_tag, vocabulary_size_tag, collection_frequencies_tag, statistics_execution_time_tag = statistics_tags(result_tag[0], result_tag[1])
+
+    print("Statistics : \n")
+    print("Execution time of the statistical calculations :", statistics_execution_time_tag, 's\n')
+    print (f'The avrege length of a document in the {n_tag} document collection is : ', sum(doc_lengths_tag.values()) / len(doc_lengths_tag), 'Word/Document') # Average document length of a collection
+    
+    print('The size of the vocabulary of the collection is : ', vocabulary_size_tag, 'Word')  # Vocabulary size of a collection
+    
+    avg=sum(collection_frequencies_tag.values()) / len(collection_frequencies_tag)
+    print ('The avrege collection frequency of a term in the collection is : ', avg,' Time\n') # Average collection frequency of terms of a collection
+
+    avdl= sum(doc_lengths_tag.values()) / n_tag
+
+    dl_tag=doc_lengths_tag
 
     ################################################################## Quey preparation ########################################################################
 
@@ -316,6 +339,7 @@ while (run > 0 and run < 5) :
         print("Execution time of the tuned BM25 calculations :", BM25_tunning_execution_time, 's\n')
 
     result = copy.deepcopy(index_result)
+    result_tag = copy.deepcopy(index_result_tag)
     
     update_counter(run_index)
 
