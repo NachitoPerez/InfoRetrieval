@@ -9,7 +9,7 @@ def file_processing_tags (file_path):
 
     index = defaultdict(lambda: defaultdict(set))
 
-    term_frequency = defaultdict(lambda: defaultdict(int))
+    term_frequency = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
 
     with open(file_path, 'r', encoding='utf-8') as file:
         docs = file.read()
@@ -77,10 +77,10 @@ def file_processing_tags (file_path):
 
                     if sec != 'bdy[1]' :
                         index[word][docno].add('/bdy[1]/' + sec + '/' + p)
-                        term_frequency[word][docno] += 1
+                        term_frequency[word][docno]['/bdy[1]/' + sec + '/' + p] += 1
                     else :
                         index[word][docno].add(sec + '/' + p)
-                        term_frequency[word][docno] += 1
+                        term_frequency[word][docno][sec + '/' + p] += 1
 
     index = dict(sorted(index.items()))
     term_frequency = dict(sorted(term_frequency.items()))
@@ -92,8 +92,9 @@ def statistics_tags(index, term_frequency):
     start = time.time()
     doc_lengths = defaultdict(int)
     for term, postings_list in index.items():
-        for docno in postings_list.keys() :
-            doc_lengths [docno] += term_frequency[term][docno]
+        for docno, tag_list in postings_list.items() :
+            for tag in tag_list :
+                doc_lengths [docno] += term_frequency[term][docno][tag]
 
     vocabulary_size = len(index)
 

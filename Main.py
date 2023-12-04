@@ -6,6 +6,7 @@ from file_process import *
 from file_process_xml import *
 from traitement_file import *
 from files_maneg import *
+from traitement_file_trag import *
 import copy
 import os
 import time
@@ -261,6 +262,16 @@ while (run > 0 and run < 5) :
 
         print("Execution time of the SMART_ltn calculations :", Smart_ltn_execution_time, 's\n')
 
+    ################################################################## Smart ltn tag processing ###################################################################
+
+        start_tag = time.time()
+        smart_ltn_tag=smart_ltn_weighting_tag(result_tag[0], result_tag[1],n_tag)
+        end_tag = time.time()
+
+        Smart_ltn_execution_time_tag = end_tag-start_tag
+
+        print("Execution time of the SMART_ltn with tag calculations :", Smart_ltn_execution_time_tag, 's\n')
+
         #index_txt_smart_ltn(result[0],smart_ltn,run_index)
 
     ################################################################## Query processing for Smart ltn #########################################################
@@ -268,10 +279,25 @@ while (run > 0 and run < 5) :
         for query_id, query in all_querys.items() :
 
             eval = evaluate_query(query, smart_ltn, stem_d, stop_list)
+            eval_tag = evaluate_query_tag(query, smart_ltn_tag, stem_d, stop_list)
+            
+            top_1500_docs_tag =[]
 
-            top_1500_docs = list(eval.items())[:1500]
+            iter_eval_tag = iter(eval_tag)
+            for docno, tag_dic in eval_tag.items():
+                d = 0
+                next_docno = next(iter_eval_tag, None)
+                for tag, tag_score in tag_dic.items():
+                    if tag_score > eval[docno] and next_docno is not None and tag_score > list(eval_tag[next_docno].values())[0]:
+                        top_1500_docs_tag.append((docno, tag, tag_score))
+                        d = 1
+                if d == 0:
+                    top_1500_docs_tag.append((docno, None, eval[docno]))
 
-            export_file(top_1500_docs, query_id, run_index, "ltn", "article",stop_d, stem_d, 'noparameters')
+            print(top_1500_docs_tag)
+
+
+            #export_file(top_1500_docs, query_id, run_index, "ltn", "article",stop_d, stem_d, 'noparameters')
 
             #query_result(top_1500_docs,run_index, query_id)
 
