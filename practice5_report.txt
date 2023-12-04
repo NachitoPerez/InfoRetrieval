@@ -1,10 +1,15 @@
+=============================================================================================================================================
 Le fichier compressé comprend plusieurs fichiers de code et de dossier. 
 
 Le dossier Runs_Ex1 contient les 12 runs demandé dans l'ex1 
 Le dossier utils contients les differents documents essentiels pour le fonctionnement du code.
+=============================================================================================================================================
 
+=============================================================================================================================================
 Pour l'exercice 1:
-Le code regroupe tout les documents XML dans un seul document TXT avec la même structure des anciens documents de TPs.(<doc><docno> ...) une fois les fichiers XML sont regroupés, le code les traites de la même manière que pour le TP3 pour calculer les statistiques, et pour le TP4 pour trouver les documents pertinents pour les sept requête. Voici la sortie de l'ex 1 :
+=============================================================================================================================================
+Le code regroupe tout les documents XML dans un seul document TXT avec la même structure des anciens documents de TPs.(<doc><docno> ...) une fois les fichiers XML sont regroupés, le code les traites de la même manière que pour le TP3 pour calculer les statistiques, et pour le TP4 pour trouver les documents pertinents pour les sept requête. 
+Voici la sortie de l'exercice 1 :
 
 Execution time to generate a txt doc that contains all the xml documents is :  996.8072531223297
 Execution time of the indixation is : 12.579455852508545 s
@@ -337,33 +342,40 @@ Choose which weigthing function you want to run :
  0. To exit
 0
 
+=============================================================================================================================================
+Les  runs de l'exercice 1 se trouvent dans le docier Runs_Ex1 
+=============================================================================================================================================
+
+
+=============================================================================================================================================
 Pour l'exercice 2:
+=============================================================================================================================================
 Le code crée un nouveau dictionnaire d'indexation qui prend en charge les différents balises des documents XML, ici nous avons pris seulement les balises <sec> et <P>. une fois l'indexation est faite le code exécute les calcules des statistiques du TP3, puis il effectue les traitements du TP4 pour trouver les documents pertinents pour les sept requête. 
-Voici la sortie de l'ex  :
+Voici la sortie de l'exercice 2  :
 
-Execution time to generate the txt files that contains all the xml documents without taking xml tags into consideration is :  11.207813501358032  s
+Execution time to generate the txt files that contains all the xml documents without taking xml tags into consideration is :  10.6743643283844  s
 
-Execution time to generate the txt files that contains all the xml documents with taking xml tags into consideration is :  6.724757194519043  s
+Execution time to generate the txt files that contains all the xml documents with taking xml tags into consideration is :  6.7236411571502686  s
 
-Execution time of the indixation without xml tags is : 16.68969488143921 s
+Execution time of the indixation without xml tags is : 12.906302213668823 s
 
 ---------------------------------------- without pre-treatment or xml tags ----------------------------------------
 
-Statistics :
+Statistics : 
 
-Execution time of the statistical calculations : 0.955416202545166 s
+Execution time of the statistical calculations : 0.61226487159729 s
 
 The avrege length of a document in the 9804 document collection is :  1098.9456344349246 Word/Document
 The size of the vocabulary of the collection is :  203661 Word
 The avrege collection frequency of a term in the collection is :  19.310501274176204  Time
 
-Execution time of the indixation with xml tags is : 55.802663803100586 s
+Execution time of the indixation with xml tags is : 37.97339606285095 s
 
 ---------------------------------------- without pre-treatment with xml tags ----------------------------------------
 
 Statistics : 
 
-Execution time of the statistical calculations : 5.053618907928467 s
+Execution time of the statistical calculations : 6.506984233856201 s
 
 The avrege length of a document in the 9804 document collection is :  1799.669216646267 Word/Document
 The size of the vocabulary of the collection is :  193917 Word
@@ -389,7 +401,7 @@ Do you want to stem the tokens :
 ---------------------------------------------------- Index list ----------------------------------------------------
 Statistics : 
 
-Execution time of the statistical calculations : 0.36157774925231934 s
+Execution time of the statistical calculations : 0.38449645042419434 s
 
 The avrege length of a document in the 9804 document collection is :  631.8509791921665 Word/Document
 The size of the vocabulary of the collection is :  165403 Word
@@ -398,22 +410,289 @@ The avrege collection frequency of a term in the collection is :  16.42719297715
 ---------------------------------------------------- Taged Index list ----------------------------------------------------
 Statistics : 
 
-Execution time of the statistical calculations : 2.1130118370056152 s
+Execution time of the statistical calculations : 2.141071319580078 s
 
 The avrege length of a document in the 9804 document collection is :  999.204733244925 Word/Document
 The size of the vocabulary of the collection is :  156810 Word
 The avrege collection frequency of a term in the collection is :  16.557821567502074  Time
 
-Execution time of the SMART_ltn calculations : 1.0142009258270264 s
+Execution time of the SMART_ltn calculations : 1.0608606338500977 s
 
-Execution time of the SMART_ltn with tag calculations : 17.400835037231445 s
+Execution time of the SMART_ltn with tag calculations : 18.867671489715576 s
 
-Le fichier Ex2.txt contient la sortie du run de l'ex2. Vous pouvez voire qu'il y a un problème.
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+1
+Do you want to remove the stop words :
+1. Yes
+2. No
+2
+Do you want to stem the tokens :
+1. Yes
+2. No
+1
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 3.099529504776001 s
+
+The avrege length of a document in the 9804 document collection is :  1098.9456344349246 Word/Document
+The size of the vocabulary of the collection is :  165650 Word
+The avrege collection frequency of a term in the collection is :  21.187630546332628  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 13.716886758804321 s
+
+The avrege length of a document in the 9804 document collection is :  1799.669216646267 Word/Document
+The size of the vocabulary of the collection is :  157058 Word
+The avrege collection frequency of a term in the collection is :  21.459632747138  Time
+
+Execution time of the SMART_ltn calculations : 3.643972396850586 s
+
+Execution time of the SMART_ltn with tag calculations : 18.414071798324585 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+1
+Do you want to remove the stop words :
+1. Yes
+2. No
+1
+Do you want to stem the tokens :
+1. Yes
+2. No
+2
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 3.2685375213623047 s
+
+The avrege length of a document in the 9804 document collection is :  631.8509791921665 Word/Document
+The size of the vocabulary of the collection is :  203042 Word
+The avrege collection frequency of a term in the collection is :  15.15776046335241  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 5.823186874389648 s
+
+The avrege length of a document in the 9804 document collection is :  999.204733244925 Word/Document
+The size of the vocabulary of the collection is :  193298 Word
+The avrege collection frequency of a term in the collection is :  15.172495318109862  Time
+
+Execution time of the SMART_ltn calculations : 4.210684061050415 s
+
+Execution time of the SMART_ltn with tag calculations : 18.015809059143066 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+1
+Do you want to remove the stop words :
+1. Yes
+2. No
+2
+Do you want to stem the tokens :
+1. Yes
+2. No
+2
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 1.7024800777435303 s
+
+The avrege length of a document in the 9804 document collection is :  1098.9456344349246 Word/Document
+The size of the vocabulary of the collection is :  203661 Word
+The avrege collection frequency of a term in the collection is :  19.310501274176204  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 8.481252908706665 s
+
+The avrege length of a document in the 9804 document collection is :  1799.669216646267 Word/Document
+The size of the vocabulary of the collection is :  193917 Word
+The avrege collection frequency of a term in the collection is :  19.428208976005198  Time
+
+Execution time of the SMART_ltn calculations : 3.455573081970215 s
+
+Execution time of the SMART_ltn with tag calculations : 16.55777668952942 s
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+2
+Do you want to remove the stop words :
+1. Yes
+2. No
+1
+Do you want to stem the tokens :
+1. Yes
+2. No
+1
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 1.2459006309509277 s
+
+The avrege length of a document in the 9804 document collection is :  631.8509791921665 Word/Document
+The size of the vocabulary of the collection is :  165403 Word
+The avrege collection frequency of a term in the collection is :  16.42719297715277  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 8.088261365890503 s
+
+The avrege length of a document in the 9804 document collection is :  999.204733244925 Word/Document
+The size of the vocabulary of the collection is :  156810 Word
+The avrege collection frequency of a term in the collection is :  16.557821567502074  Time
+
+Execution time of the SMART_ltc calculations : 6.604616641998291 s
+
+Execution time of the SMART_ltc with tag calculations : 234.13135647773743 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+2
+Do you want to remove the stop words :
+1. Yes
+2. No
+1
+Do you want to stem the tokens :
+1. Yes
+2. No
+2
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 1.805121898651123 s
+
+The avrege length of a document in the 9804 document collection is :  631.8509791921665 Word/Document
+The size of the vocabulary of the collection is :  203042 Word
+The avrege collection frequency of a term in the collection is :  15.15776046335241  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 8.165024757385254 s
+
+The avrege length of a document in the 9804 document collection is :  999.204733244925 Word/Document
+The size of the vocabulary of the collection is :  193298 Word
+The avrege collection frequency of a term in the collection is :  15.172495318109862  Time
+
+Execution time of the SMART_ltc calculations : 7.646748781204224 s
+Execution time of the SMART_ltc with tag calculations : 240.30537343025208 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+2
+Do you want to remove the stop words :
+1. Yes
+2. No
+2
+Do you want to stem the tokens :
+1. Yes
+2. No
+1
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 1.1253323554992676 s
+
+The avrege length of a document in the 9804 document collection is :  1098.9456344349246 Word/Document
+The size of the vocabulary of the collection is :  165650 Word
+The avrege collection frequency of a term in the collection is :  21.187630546332628  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 9.544240474700928 s
+
+The avrege length of a document in the 9804 document collection is :  1799.669216646267 Word/Document
+The size of the vocabulary of the collection is :  157058 Word
+The avrege collection frequency of a term in the collection is :  21.459632747138  Time
+
+Execution time of the SMART_ltc calculations : 11.27385139465332 s
+
+Execution time of the SMART_ltc with tag calculations : 352.0328097343445 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+2
+Do you want to remove the stop words :
+1. Yes
+2. No
+2
+Do you want to stem the tokens :
+1. Yes
+2. No
+2
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 5.894190311431885 s
+
+The avrege length of a document in the 9804 document collection is :  1098.9456344349246 Word/Document
+The size of the vocabulary of the collection is :  203661 Word
+The avrege collection frequency of a term in the collection is :  19.310501274176204  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 7.779943227767944 s
+
+The avrege length of a document in the 9804 document collection is :  1799.669216646267 Word/Document
+The size of the vocabulary of the collection is :  193917 Word
+The avrege collection frequency of a term in the collection is :  19.428208976005198  Time
+
+Execution time of the SMART_ltc calculations : 15.059978246688843 s
+
+Execution time of the SMART_ltc with tag calculations : 476.0699450969696 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+
+
+=============================================================================================================================================
+Les  runs de l'exercice 2 se trouvent dans le docier Runs_Ex2 
+=============================================================================================================================================
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-La partie  du TP 4 n'est pas complète. le code faits les traitements et evalue les requetes mais j'ai pas parvenus à trouver comment combiner les resultats des ponderations des requetes pour les scores des requetes dans tout les articles et les scores des requetes dans chaque paragraphe. 
+La partie  du TP 4 n'est pas complète. le code faits les traitements et evalue les requetes mais nous n'avons pas parvenus à trouver comment combiner les resultats des ponderations des requetes pour les scores des requetes dans tout les articles et les scores des requetes dans chaque paragraphe. 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-il faur savoire aussi que le résultat retourné dans le cas ou on prend en charge les balises XML est un traitement sur chaque paragraphe de chaque document. pour effectuer le calcule pour les sections il faut grouper les resultats des paragraphes qui se trouvent dans la même section.
+il faur savoire aussi que le résultat retourné dans le cas ou on prend en charge les balises XML est un traitement sur chaque paragraphe de chaque document. pour effectuer le calcule pour les sections il faut grouper les resultats des paragraphes qui se trouvent dans la même section, et c'est ce que nous allons essaier dans le prochain rendu.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

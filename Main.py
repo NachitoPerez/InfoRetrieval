@@ -281,37 +281,7 @@ while (run > 0 and run < 5) :
             eval = evaluate_query(query, smart_ltn, stem_d, stop_list)
             eval_tag = evaluate_query_tag(query, smart_ltn_tag, stem_d, stop_list)
             
-            top_1500_docs_tag =[]
-            eval_p={}
-
-            doc_list=[]
-
-            for docno in eval.keys():
-                doc_list.append(docno)
-                if docno in eval_tag.keys():
-                    eval_p[docno]=eval_tag[docno]
-
-            
-            i=0
-
-            for docno, tag_dic in eval_p.items():
-                d = 0
-                if (doc_list[i] == docno) and (doc_list[i+1] in eval_p.keys()):
-                    next_doc_max_value = list(eval_p[doc_list[i+1]].values())[0]
-                    for tag, tag_score in tag_dic.items():
-                        if tag_score > eval[doc_list[i]] and tag_score > next_doc_max_value :
-                            top_1500_docs_tag.append((docno, tag, tag_score))
-                            d = 1
-                        else : 
-                            continue
-                    if d == 0:
-                        top_1500_docs_tag.append(((doc_list[i]), '/article[1]', eval[docno]))
-                    
-                else:
-                    top_1500_docs_tag.append(((doc_list[i]), '/article[1]', eval[docno]))
-
-                i+=1
-
+            top_1500_docs_tag=top_1500(eval, eval_tag)
 
             export_file(top_1500_docs_tag[:1500], query_id, run_index, "ltn", "element",stop_d, stem_d, 'noparameters')
 
@@ -331,15 +301,29 @@ while (run > 0 and run < 5) :
         print("Execution time of the SMART_ltc calculations :", Smart_ltc_execution_time, 's\n')
         #index_txt_smart_ltc(result[0],smart_ltc,run_index)
 
+    ################################################################## Smart ltc tag processing ###################################################################
+
+        start_tag = time.time()
+        smart_ltn_tag=smart_ltn_weighting_tag(result_tag[0], result_tag[1],n_tag)
+
+        smart_ltc_tag=smart_ltc_weighting_tag(smart_ltn_tag)
+        end_tag = time.time()
+
+        Smart_ltc_execution_time_tag = end_tag-start_tag
+
+        print("Execution time of the SMART_ltc with tag calculations :", Smart_ltc_execution_time_tag, 's\n')
+
+
     ################################################################## Query processing for Smart ltc #########################################################
 
         for query_id, query in all_querys.items() :
 
             eval = evaluate_query(query, smart_ltc, stem_d, stop_list)
+            eval_tag = evaluate_query_tag(query, smart_ltc_tag, stem_d, stop_list)
 
-            top_1500_docs = list(eval.items())[:1500]
+            top_1500_docs_tag=top_1500(eval, eval_tag)
 
-            export_file(top_1500_docs, query_id, run_index, "ltc", "article",stop_d, stem_d, 'noparameters')
+            export_file(top_1500_docs_tag[:1500], query_id, run_index, "ltn", "element",stop_d, stem_d, 'noparameters')
 
             #query_result(top_1500_docs,run_index, query_id)
 
@@ -358,15 +342,26 @@ while (run > 0 and run < 5) :
 
         print("Execution time of the BM25 calculations :", BM25_execution_time, 's\n')
 
+        ################################################################## BM25 tag processing ########################################################################
+
+        start_tag = time.time()
+        BM25_tag = BM25_weighting_tag(result_tag[0], result_tag[1], n_tag, k, b, avdl, dl_tag)
+        end_tag = time.time()
+
+        BM25_execution_time_tag = end_tag-start_tag
+
+        print("Execution time of the BM25 with tag calculations :", BM25_execution_time_tag, 's\n')
+
     ################################################################## Query processing for BM25 ###############################################################
 
         for query_id, query in all_querys.items() :
 
             eval = evaluate_query(query, BM25, stem_d, stop_list)
+            eval_tag = evaluate_query_tag(query, BM25_tag, stem_d, stop_list)
 
-            top_1500_docs = list(eval.items())[:1500]
+            top_1500_docs_tag=top_1500(eval, eval_tag)
 
-            export_file(top_1500_docs, query_id, run_index, "BM25", "article",stop_d, stem_d, {'k':k, 'b':b})
+            export_file(top_1500_docs_tag[:1500], query_id, run_index, "ltn", "element",stop_d, stem_d, {'k':k, 'b':b})
             
     if (run == 4):
 

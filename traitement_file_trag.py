@@ -120,3 +120,35 @@ def evaluate_query_tag(query, smart, stem_d, stop_list):
         doc_scorring[docno] = dict(sorted(doc_scorring[docno].items(), key=lambda item: item[1], reverse=True)) 
     doc_scorring = dict(sorted(doc_scorring.items(), key=lambda item: max(item[1].values()), reverse=True))
     return doc_scorring
+
+def top_1500 (eval, eval_tag):
+    top_1500_docs_tag =[]
+    eval_p={}
+
+    doc_list=[]
+
+    for docno in eval.keys():
+        doc_list.append(docno)
+        if docno in eval_tag.keys():
+            eval_p[docno]=eval_tag[docno]
+
+    i=0
+
+    for docno, tag_dic in eval_p.items():
+        d = 0
+        if (doc_list[i] == docno) and (doc_list[i+1] in eval_p.keys()):
+            next_doc_max_value = list(eval_p[doc_list[i+1]].values())[0]
+            for tag, tag_score in tag_dic.items():
+                if tag_score > eval[doc_list[i]] and tag_score > next_doc_max_value :
+                    top_1500_docs_tag.append((docno, tag, tag_score))
+                    d = 1
+                else : 
+                    continue
+            if d == 0:
+                top_1500_docs_tag.append(((doc_list[i]), '/article[1]', eval[docno]))
+                    
+        else:
+            top_1500_docs_tag.append(((doc_list[i]), '/article[1]', eval[docno]))
+
+        i+=1
+    return(top_1500_docs_tag)
