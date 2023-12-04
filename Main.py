@@ -282,22 +282,38 @@ while (run > 0 and run < 5) :
             eval_tag = evaluate_query_tag(query, smart_ltn_tag, stem_d, stop_list)
             
             top_1500_docs_tag =[]
+            eval_p={}
 
-            iter_eval_tag = iter(eval_tag)
-            for docno, tag_dic in eval_tag.items():
+            doc_list=[]
+
+            for docno in eval.keys():
+                doc_list.append(docno)
+                if docno in eval_tag.keys():
+                    eval_p[docno]=eval_tag[docno]
+
+            
+            i=0
+
+            for docno, tag_dic in eval_p.items():
                 d = 0
-                next_docno = next(iter_eval_tag, None)
-                for tag, tag_score in tag_dic.items():
-                    if tag_score > eval[docno] and next_docno is not None and tag_score > list(eval_tag[next_docno].values())[0]:
-                        top_1500_docs_tag.append((docno, tag, tag_score))
-                        d = 1
-                if d == 0:
-                    top_1500_docs_tag.append((docno, None, eval[docno]))
+                if (doc_list[i] == docno) and (doc_list[i+1] in eval_p.keys()):
+                    next_doc_max_value = list(eval_p[doc_list[i+1]].values())[0]
+                    for tag, tag_score in tag_dic.items():
+                        if tag_score > eval[doc_list[i]] and tag_score > next_doc_max_value :
+                            top_1500_docs_tag.append((docno, tag, tag_score))
+                            d = 1
+                        else : 
+                            continue
+                    if d == 0:
+                        top_1500_docs_tag.append(((doc_list[i]), '/article[1]', eval[docno]))
+                    
+                else:
+                    top_1500_docs_tag.append(((doc_list[i]), '/article[1]', eval[docno]))
 
-            print(top_1500_docs_tag)
+                i+=1
 
 
-            #export_file(top_1500_docs, query_id, run_index, "ltn", "article",stop_d, stem_d, 'noparameters')
+            export_file(top_1500_docs_tag[:1500], query_id, run_index, "ltn", "element",stop_d, stem_d, 'noparameters')
 
             #query_result(top_1500_docs,run_index, query_id)
 
