@@ -683,7 +683,155 @@ Choose which weigthing function you want to run :
  3. BM25
  4. BM25 Tuning
  0. To exit
+3
+Do you want to remove the stop words :
+1. Yes
+2. No
+1
+Do you want to stem the tokens :
+1. Yes
+2. No
+1
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
 
+Execution time of the statistical calculations : 0.38808465003967285 s
+
+The avrege length of a document in the 9804 document collection is :  631.8509791921665 Word/Document
+The size of the vocabulary of the collection is :  165403 Word
+The avrege collection frequency of a term in the collection is :  16.42719297715277  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 2.2891464233398438 s
+
+The avrege length of a document in the 9804 document collection is :  999.204733244925 Word/Document
+The size of the vocabulary of the collection is :  156810 Word
+The avrege collection frequency of a term in the collection is :  16.557821567502074  Time
+
+Enter the value of k : 1.2
+Enter the value of b : 0.75
+Execution time of the BM25 calculations : 1.282792568206787 s
+
+Execution time of the BM25 with tag calculations : 6.5250325202941895 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+3
+Do you want to remove the stop words :
+1. Yes
+2. No
+1
+Do you want to stem the tokens :
+1. Yes
+2. No
+2
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 1.8223693370819092 s
+
+The avrege length of a document in the 9804 document collection is :  631.8509791921665 Word/Document
+The size of the vocabulary of the collection is :  203042 Word
+The avrege collection frequency of a term in the collection is :  15.15776046335241  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 6.958571434020996 s
+
+The avrege length of a document in the 9804 document collection is :  999.204733244925 Word/Document
+The size of the vocabulary of the collection is :  193298 Word
+The avrege collection frequency of a term in the collection is :  15.172495318109862  Time
+
+Enter the value of k : 1.2
+Enter the value of b : 0.75
+Execution time of the BM25 calculations : 93.29524040222168 s
+
+Execution time of the BM25 with tag calculations : 21.33314800262451 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+3
+Do you want to remove the stop words :
+1. Yes
+2. No
+2
+Do you want to stem the tokens :
+1. Yes
+2. No
+1
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 3.579895257949829 s
+
+The avrege length of a document in the 9804 document collection is :  1098.9456344349246 Word/Document
+The size of the vocabulary of the collection is :  165650 Word
+The avrege collection frequency of a term in the collection is :  21.187630546332628  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 12.035183906555176 s
+
+The avrege length of a document in the 9804 document collection is :  1799.669216646267 Word/Document
+The size of the vocabulary of the collection is :  157058 Word
+The avrege collection frequency of a term in the collection is :  21.459632747138  Time
+
+Enter the value of k : 1.2
+Enter the value of b : 0.75
+Execution time of the BM25 calculations : 4.791749477386475 s
+
+Execution time of the BM25 with tag calculations : 283.03632712364197 s
+
+Choose which weigthing function you want to run :
+ 1. Smart Ltn
+ 2. Smart Ltc
+ 3. BM25
+ 4. BM25 Tuning
+ 0. To exit
+3
+Do you want to remove the stop words :
+1. Yes
+2. No
+2
+Do you want to stem the tokens :
+1. Yes
+2. No
+2
+---------------------------------------------------- Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 1.6105973720550537 s
+
+The avrege length of a document in the 9804 document collection is :  1098.9456344349246 Word/Document
+The size of the vocabulary of the collection is :  203661 Word
+The avrege collection frequency of a term in the collection is :  19.310501274176204  Time
+
+---------------------------------------------------- Taged Index list ----------------------------------------------------
+Statistics : 
+
+Execution time of the statistical calculations : 7.500147104263306 s
+
+The avrege length of a document in the 9804 document collection is :  1799.669216646267 Word/Document
+The size of the vocabulary of the collection is :  193917 Word
+The avrege collection frequency of a term in the collection is :  19.428208976005198  Time
+
+Enter the value of k : 1.2
+Enter the value of b : 0.75
+Execution time of the BM25 calculations : 3.9210009574890137 s
+
+Execution time of the BM25 with tag calculations : 18.970245122909546 s
 
 =============================================================================================================================================
 Les  runs de l'exercice 2 se trouvent dans le docier Runs_Ex2 
