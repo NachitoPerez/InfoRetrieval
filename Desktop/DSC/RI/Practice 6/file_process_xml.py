@@ -1,0 +1,131 @@
+import re
+import time
+from files_maneg import *
+
+from collections import defaultdict
+
+def file_processing_tags (file_path):
+
+    index = defaultdict(lambda: defaultdict(lambda: defaultdict(set)))
+
+    term_frequency = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(int))))
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        docs = file.read()
+    
+    docno = ''
+    words = ''
+
+    documents = re.findall(r'<doc><docno>.*?</docno>.*?</doc>', docs, re.DOTALL)
+
+    for document in documents:
+            
+        statement = re.search(r'<docno>(.*?)</docno>(.*?)</doc>', document, re.DOTALL)
+        if statement:
+            docno = statement.group(1)
+            doc = statement.group(2)
+
+        tag_title = re.search(r'<title>(.*?)</title>', doc, re.DOTALL)
+        if tag_title:
+            title=tag_title.group(1)
+
+
+        tags_sec = re.findall(r'<sec>(.*?)</sec>', doc, re.DOTALL)
+        if tags_sec:
+            sections=tags_sec
+
+        doc_xml = defaultdict(lambda: defaultdict(str))
+
+        doc_xml['title']['title'] = title
+        
+        i=1
+
+        for section in sections :
+
+            tags_p = re.findall(r'<p>(.*?)</p>', section, re.DOTALL)
+            if tags_p:
+                paragraphs=tags_p
+
+            j=1
+
+            for paragraph in paragraphs:
+
+                doc_xml['sec'+f'[{i}]']['p' +f'[{j}]']=paragraph
+
+                j+=1
+            
+            i+=1
+        
+        tags_op = re.findall(r'<p>(.*?)</p>', document, re.DOTALL)
+        if tags_op:
+            o_paragraphs=tags_op
+            k=1
+            
+            for o_paragraph in o_paragraphs:
+
+                if o_paragraph not in paragraphs :
+
+                    doc_xml['bdy[1]']['p' +f'[{k}]']=o_paragraph
+
+                    k+=1
+
+        doc_xml = dict(sorted(doc_xml.items()))
+
+        
+        for sec, section in doc_xml.items():
+
+            for p, paragraphe in section.items():
+
+                words = re.findall(r'\b[a-zA-Z_]+\b', paragraphe.lower())
+
+                cleaned_words = [cleaned_word for word in words for cleaned_word in re.split(r'_+', word) if cleaned_word]
+
+                for word in cleaned_words:
+
+                    if sec == 'title':
+                        index[word][docno]['/article[1]/title/'].add(p)
+                        term_frequency[word][docno]['/article[1]/title/'][p] += 1
+                    elif sec != 'bdy[1]' :
+                        index[word][docno]['/article[1]/bdy[1]/' + sec].add('/' + p)
+                        term_frequency[word][docno]['/article[1]/bdy[1]/' + sec][ '/' + p] += 1
+                    else :
+                        index[word][docno]['/article[1]/' + sec].add('/' + p)
+                        term_frequency[word][docno]['/article[1]/' + sec]['/' + p] += 1
+
+    index = dict(sorted(index.items()))
+    term_frequency = dict(sorted(term_frequency.items()))
+
+    return index, term_frequency
+
+def statistics_tags(index, term_frequency):
+ 
+    start = time.time()
+    doc_lengths = defaultdict(int)
+    for term, postings_list in index.items():
+        for docno, tag_list in postings_list.items() :
+            for tag, paragraphes in tag_list.items() :
+                for paragraphe in paragraphes :
+                    doc_lengths [docno] += term_frequency[term][docno][tag][paragraphe]
+
+    vocabulary_size = len(index)
+
+    collection_frequencies = defaultdict(int)
+    for term, postings_list in index.items():
+        collection_frequencies[term] = len(postings_list)
+    
+    end = time.time()
+    statistics_execution_time = end - start
+
+    return doc_lengths, vocabulary_size, collection_frequencies, statistics_execution_time
+
+
+def doc_length_tag(index, term_frequency):
+
+    doc_lengths = defaultdict(int)
+    for term, postings_list in index.items():
+        for docno, tag_list in postings_list.items() :
+            for tag, paragraphes in tag_list.items() :
+                for paragraphe in paragraphes :
+                    doc_lengths [docno] += term_frequency[term][docno][tag][paragraphe]
+
+    return doc_lengths
